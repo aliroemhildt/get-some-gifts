@@ -12,6 +12,7 @@ const itemsPromise = fetchItems();
 const totalCostText = document.querySelector('span');
 const tableBody = document.querySelector('tbody');
 
+
 // FUNCTIONS
 const renderRows = (items) => {
   tableBody.innerHTML = '';
