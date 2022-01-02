@@ -1,13 +1,48 @@
-// returns the promise object
-async function fetchItems() { // difference b/w making this a normal vs async func?
-  const items = fetch("https://mysterious-mesa-00016.herokuapp.com/items")
+// API
+const fetchItems = () => {
+  return fetch('https://mysterious-mesa-00016.herokuapp.com/items')
     .then(response => response.json())
-    .then(data => data) // what is this line doing exactly?
-    .catch(error => console.log(error))
-
-    const allItems = await items; //why does this return just the data? not the entire promise object? const allItems = fetchItems() returns the whole object when it is outside of this function
-
-    console.log(allItems);
+    .then(data => data);
 }
 
-fetchItems();
+// how do I move the renderScreen outside of fetch fn?
+const itemsPromise = fetchItems();
+
+// QUERY SELECTORS
+const totalCostText = document.querySelector('span');
+const tableBody = document.querySelector('tbody');
+
+// FUNCTIONS
+const renderRows = (items) => {
+  tableBody.innerHTML = '';
+  items.forEach(item => {
+    tableBody.innerHTML += `
+    <tr>
+      <td>${item.recipient}</td>
+      <td>${item.name}</td>
+      <td>$ ${item.priceInDollars}</td>
+      <td><input type="checkbox"></td>
+    </tr>
+    `
+  })
+
+}
+
+const calculateTotalCost = (items) => {
+  return items.reduce((acc, item) => {
+    acc += item.priceInDollars;
+    return acc;
+  }, 0);
+}
+
+const renderTotalCost = (items) => {
+  const totalCost = calculateTotalCost(items);
+  totalCostText.innerText = `$ ${totalCost}`;
+}
+
+const renderScreen = (items) => {
+  renderRows(items)
+  renderTotalCost(items);
+}
+
+itemsPromise.then(data => renderScreen(data));

@@ -1,4 +1,7 @@
-let allItems = fetch("https://mysterious-mesa-00016.herokuapp.com/items")
-  .then(response => response.json())
+const fetchItems = () => {
+  fetch("https://mysterious-mesa-00016.herokuapp.com/items")
+    .then(response => response.json())
+    .then(data => data)
+}
 
-export allItems;
+module.exports = fetchItems;
