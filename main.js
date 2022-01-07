@@ -1,12 +1,13 @@
+//import fetchItems from './apiCalls.js';
+
 // API
 const fetchItems = () => {
   return fetch('https://mysterious-mesa-00016.herokuapp.com/items')
     .then(response => response.json())
-    .then(data => data);
+    //.then(data => data);
 }
 
-// how do I move the renderScreen outside of fetch fn?
-const itemsPromise = fetchItems();
+//const itemsPromise = fetchItems();
 
 // QUERY SELECTORS
 const totalCostText = document.querySelector('span');
@@ -26,7 +27,6 @@ const renderRows = (items) => {
     </tr>
     `
   })
-
 }
 
 const calculateTotalCost = (items) => {
@@ -46,4 +46,6 @@ const renderScreen = (items) => {
   renderTotalCost(items);
 }
 
-itemsPromise.then(data => renderScreen(data));
+fetchItems()
+  .then(data => renderScreen(data))
+  .catch(error => console.log(error))
